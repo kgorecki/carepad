@@ -9,7 +9,7 @@ function mysqlTimeStampToDate(timestamp)
 
 function getFeedingTimes()
 {
-  $.getJSON('select.php', function(data)
+  $.getJSON('api/v1.php?operation=select', function(data)
   {
     var feeding_content = "<table><tr><td>Czas</td><td>Typ</td><td>Komentarz</td></tr>";
     for (i = 0; i < data.length; i++)
@@ -29,7 +29,7 @@ function getFeedingTimes()
 
 function setFeeding(type)
 {
-    $.get('insert.php?typeName=' + encodeURI(type), function()
+    $.get('api/v1.php?operation=insert&typeName=' + encodeURI(type), function()
     {
       alert("Saved!");
       location.reload();
