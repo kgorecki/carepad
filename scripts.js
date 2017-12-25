@@ -16,11 +16,8 @@ function getFeedingTimes()
     {
         var comment = data[i].comment;
         feeding_content += "<tr><td>" + mysqlTimeStampToDate(data[i].feeding_time)
-                        + "<td>" + data[i].type_name + "</td>"
-                        + "<td>" + (comment == 'undefined' ? '' : comment) + "</td></tr>";
-
-        // news_content = "<p class='news'>" + replaceURLWithHTMLLinks(data[i].message.replace(/(?:\r\n|\r|\n)/g, '<br />')) + "</p>" + "\n" + news_content;
-        // news_content = "<p class='news_date'>" + date.getDate() + "." + (date.getMonth() + 1) + "." + date.getFullYear() + "</p>" + "\n" + news_content;
+                        + "</td><td>" + data[i].type_name
+                        + "</td><td>" + (comment == 'undefined' ? '' : comment) + "</td></tr>";
     }
     feeding_content += "</table>";
     document.getElementById("feeding_content").innerHTML = feeding_content;

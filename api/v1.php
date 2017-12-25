@@ -7,6 +7,7 @@ class DBManager {
   private $db_name;
   private $db_username;
   private $db_password;
+  private $timezone;
 
   function __construct() {
     $ini_array = parse_ini_file($this->configFile);
@@ -15,6 +16,7 @@ class DBManager {
     $this->db_name = $ini_array['db_name'];
     $this->db_username = $ini_array['db_username'];
     $this->db_password = $ini_array['db_password'];
+    $this->timezone = $ini_array['timezone'];
   }
 
   private function getDB() {
@@ -28,7 +30,9 @@ class DBManager {
   function insertFeeding($type) {
     $db = $this->getDB();
     $typeName = $db->quote($type);
-    $db->query('INSERT INTO feeding SET feeding_time=NOW(), type_id=(SELECT type_id FROM types WHERE type_name='.$typeName.')');
+    $timestamp = new DateTime("now", new DateTimeZone($this->timezone));
+    $date = $timestamp->format("Y-m-d H:i:s");
+    $db->query("INSERT INTO feeding SET feeding_time='$date', type_id=(SELECT type_id FROM types WHERE type_name=$typeName)");
   }
 
   function getFeeding() {
