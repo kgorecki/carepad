@@ -17,7 +17,7 @@ function getFeedingTimes()
         var comment = data[i].comment;
         feeding_content += "<tr><td>" + mysqlTimeStampToDate(data[i].feeding_time)
                         + "</td><td>" + data[i].type_name
-                        + "</td><td>" + (comment == 'undefined' ? '' : comment) + "</td></tr>";
+                        + "</td><td>" + (comment == undefined ? '' : comment) + "</td></tr>";
     }
     feeding_content += "</table>";
     document.getElementById("feeding_content").innerHTML = feeding_content;
