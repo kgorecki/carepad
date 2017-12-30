@@ -32,7 +32,8 @@ class DBManager {
     $typeName = $db->quote($type);
     $timestamp = new DateTime("now", new DateTimeZone($this->timezone));
     $date = $timestamp->format("Y-m-d H:i:s");
-    $db->query("INSERT INTO feeding SET feeding_time='$date', type_id=(SELECT type_id FROM types WHERE type_name=$typeName)");
+    $query = "INSERT INTO feeding SET feeding_time='$date', type_id=(SELECT type_id FROM types WHERE type_name=$typeName)";
+    $db->query($query);
   }
 
   function getFeeding() {
@@ -45,7 +46,6 @@ class DBManager {
 $dbManager = new DBManager;
 
 $operation = $_GET["operation"];
-
 if ($operation == 'select')
   echo $dbManager->getFeeding();
 else if ($operation == 'insert') {
