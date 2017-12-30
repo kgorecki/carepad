@@ -16,7 +16,8 @@ class DBManager {
     $this->db_name = $ini_array['db_name'];
     $this->db_username = $ini_array['db_username'];
     $this->db_password = $ini_array['db_password'];
-    $this->timezone = $ini_array['timezone'];
+    $tz = $ini_array['timezone'];
+    $this->timezone = isset($tz) ? $tz : date_default_timezone_get();
   }
 
   private function getDB() {
