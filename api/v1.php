@@ -18,6 +18,7 @@ class DBManager {
     $this->db_password = $ini_array['db_password'];
     $tz = $ini_array['timezone'];
     $this->timezone = isset($tz) ? $tz : date_default_timezone_get();
+    $this->limit = $ini_array['results_limit'];
   }
 
   private function getDB() {
@@ -37,10 +38,15 @@ class DBManager {
     $db->query($query);
   }
 
-  function getFeeding() {
+  function getFeeding($limit = 0) {
     $db = $this->getDB();
-    $data = $db->query('SELECT feeding_id, feeding_time, type_name, comments FROM feeding f inner join types t on f.type_id = t.type_id ORDER BY feeding_id DESC')->fetchAll(PDO::FETCH_ASSOC);
+    $sLimit = $limit != 0 ? "LIMIT $limit" : ''; 
+    $data = $db->query("SELECT feeding_id, feeding_time, type_name, comments FROM feeding f inner join types t on f.type_id = t.type_id ORDER BY feeding_id DESC $sLimit")->fetchAll(PDO::FETCH_ASSOC);
     return json_encode($data);
+  }
+
+  function getFeedingLimit() {
+   return $this->getFeeding($this->limit);
   }
 }
 
@@ -48,7 +54,7 @@ $dbManager = new DBManager;
 
 $operation = $_GET["operation"];
 if ($operation == 'select')
-  echo $dbManager->getFeeding();
+  echo $dbManager->getFeedingLimit();
 else if ($operation == 'insert') {
   $type = $_GET["typeName"];
   if (isset($type))
