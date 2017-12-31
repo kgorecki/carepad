@@ -18,7 +18,8 @@ class DBManager {
     $this->db_password = $ini_array['db_password'];
     $tz = $ini_array['timezone'];
     $this->timezone = isset($tz) ? $tz : date_default_timezone_get();
-    $this->limit = $ini_array['results_limit'];
+    $limit = $ini_array['results_limit'];
+    $this->limit = isset($limit) ? $limit : 0;
   }
 
   private function getDB() {
