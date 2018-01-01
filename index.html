@@ -15,11 +15,10 @@
         </style>
     </head>
     <body>
-        <div class="w3-bar w3-mobile">
-            <button onClick='setFeeding("cyc")' class="w3-green w3-btn w3-block w3-jumbo w3-wide mybutton"><b>Cyc</b></button><br />
-            <button onClick='setFeeding("butla")' class="w3-green w3-btn w3-block w3-jumbo w3-wide mybutton"><b>Butla</b></button><br />
-            <hr /><br />
-            <button onClick="window.location.href='feedList.html'" class="w3-indigo w3-btn w3-block w3-jumbo w3-wide mybutton"><b>Lista</b></button> 
+        <div class="w3-bar w3-mobile" id="buttons">
         </div>
+        <hr /><br />
+        <button onClick="window.location.href='feedList.html'" class="w3-indigo w3-btn w3-block w3-jumbo w3-wide mybutton"><b>Lista</b></button>
+        <script>getButtons();</script>
     </body>
 </html>

@@ -14,10 +14,10 @@ function getFeedingTimes()
     var feeding_content = "<table><tr><td>Czas</td><td>Typ</td><td>Komentarz</td></tr>";
     for (i = 0; i < data.length; i++)
     {
-        var comment = data[i].comment;
-        feeding_content += "<tr><td>" + mysqlTimeStampToDate(data[i].feeding_time)
-                        + "</td><td>" + data[i].type_name
-                        + "</td><td>" + (comment == undefined ? '' : comment) + "</td></tr>";
+      var comment = data[i].comment;
+      feeding_content += "<tr><td>" + mysqlTimeStampToDate(data[i].feeding_time)
+                      + "</td><td>" + data[i].type_name
+                      + "</td><td>" + (comment == undefined ? '' : comment) + "</td></tr>";
     }
     feeding_content += "</table>";
     document.getElementById("feeding_content").innerHTML = feeding_content;
@@ -26,10 +26,27 @@ function getFeedingTimes()
 
 function setFeeding(type)
 {
-    $.get('api/v1.php?operation=insert&typeName=' + encodeURI(type), function()
+  $.get('api/v1.php?operation=insert&typeName=' + encodeURI(type), function()
+  {
+    alert("Saved!");
+    location.reload();
+  });  
+}
+
+function getButtons()
+{
+  $.getJSON('api/v1.php?operation=getTypes', function(data)
+  {
+//    var feeding_content = "<table><tr><td>Czas</td><td>Typ</td><td>Komentarz</td></tr>";
+    var feeding_content = "";
+    for (i = 0; i < data.length; i++)
     {
-      alert("Saved!");
-      location.reload();
-    });
-  
+      feeding_content += "<button onClick='setFeeding(\""
+        + data[i].type_name
+        + "\")' class=\"" + data[i].type_colour
+        + " w3-btn w3-block w3-jumbo w3-wide mybutton\"><b>"
+        + data[i].type_name + "</b></button><br />";
+    }
+    document.getElementById("buttons").innerHTML = feeding_content;
+  });
 }
