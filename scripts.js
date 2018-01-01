@@ -11,12 +11,15 @@ function getFeedingTimes()
 {
   $.getJSON('api/v1.php?operation=select', function(data)
   {
-    var feeding_content = "<table><tr><td>Czas</td><td>Typ</td><td>Komentarz</td></tr>";
+    var feeding_content = "<table><tr><td>Date</td><td>Time</td><td>Type</td><td>Comment</td></tr>";
     for (i = 0; i < data.length; i++)
     {
       var comment = data[i].comment;
-      feeding_content += "<tr><td>" + mysqlTimeStampToDate(data[i].feeding_time)
-                      + "</td><td>" + data[i].type_name
+      var date = mysqlTimeStampToDate(data[i].feeding_time);
+      var dateTxt = (date.getMonth() + 1) + "." + date.getDate() + "</td><td>"
+        + date.getHours() + ":" + date.getMinutes();
+      feeding_content += "<tr><td>" + dateTxt
+                      + "</td><td class=" + data[i].type_colour + ">" + data[i].type_name
                       + "</td><td>" + (comment == undefined ? '' : comment) + "</td></tr>";
     }
     feeding_content += "</table>";
@@ -37,7 +40,6 @@ function getButtons()
 {
   $.getJSON('api/v1.php?operation=getTypes', function(data)
   {
-//    var feeding_content = "<table><tr><td>Czas</td><td>Typ</td><td>Komentarz</td></tr>";
     var feeding_content = "";
     for (i = 0; i < data.length; i++)
     {

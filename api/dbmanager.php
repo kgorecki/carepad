@@ -43,7 +43,7 @@ class DBManager {
   function getFeeding($limit = 0) {
     $db = $this->getDB();
     $sLimit = $limit != 0 ? "LIMIT $limit" : ''; 
-    $data = $db->query("SELECT feeding_id, feeding_time, type_name, comments FROM feeding f inner join types t on f.type_id = t.type_id ORDER BY feeding_id DESC $sLimit")->fetchAll(PDO::FETCH_ASSOC);
+    $data = $db->query("SELECT feeding_id, feeding_time, type_name, type_colour, comments FROM feeding f inner join types t on f.type_id = t.type_id ORDER BY feeding_id DESC $sLimit")->fetchAll(PDO::FETCH_ASSOC);
     return json_encode($data);
   }
 
