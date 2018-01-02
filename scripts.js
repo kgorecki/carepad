@@ -11,16 +11,17 @@ function getFeedingTimes()
 {
   $.getJSON('api/v1.php?operation=select', function(data)
   {
-    var feeding_content = "<table><tr><td>Date</td><td>Time</td><td>Type</td><td>Comment</td></tr>";
+    var feeding_content = "<table><tr><th>Date</th><th>Time</th><th>Type</th><th>Comment</th></tr>";
     for (i = 0; i < data.length; i++)
     {
-      var comment = data[i].comment;
+      var comment = data[i].comments;
       var date = mysqlTimeStampToDate(data[i].feeding_time);
+      var even = i % 2 == 0 ? " class=w3-light-grey" : "";
       var dateTxt = (date.getMonth() + 1) + "." + date.getDate() + "</td><td>"
         + date.getHours() + ":" + date.getMinutes();
-      feeding_content += "<tr><td>" + dateTxt
-                      + "</td><td class=" + data[i].type_colour + ">" + data[i].type_name
-                      + "</td><td>" + (comment == undefined ? '' : comment) + "</td></tr>";
+      feeding_content += "<tr" + even + "><td>" + dateTxt
+        + "</td><td class=" + data[i].type_colour + ">" + data[i].type_name
+        + "</td><td>" + (comment == undefined ? '' : comment) + "</td></tr>";
     }
     feeding_content += "</table>";
     document.getElementById("feeding_content").innerHTML = feeding_content;
