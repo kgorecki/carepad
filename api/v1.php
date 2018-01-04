@@ -12,6 +12,9 @@ switch ($operation) {
   case 'select':
     echo $dbManager->getFeedingLimit();
     break;
+  case 'selectAll':
+    echo $dbManager->getFeeding();
+    break;
   case 'insert':
     $type = $_GET["typeName"];
     if (isset($type))

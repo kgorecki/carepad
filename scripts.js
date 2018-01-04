@@ -7,9 +7,10 @@ function mysqlTimeStampToDate(timestamp)
   return new Date(parts[0],parts[1]-1,parts[2],parts[3],parts[4],parts[5]);
 }
 
-function getFeedingTimes()
+function getFeedingTimes(all = false)
 {
-  $.getJSON('api/v1.php?operation=select', function(data)
+  var sAll = all ? "All" : "";
+  $.getJSON('api/v1.php?operation=select' + sAll, function(data)
   {
     var feeding_content = "<table><tr><th>Date</th><th>Time</th><th>Type</th><th>Comment</th></tr>";
     for (i = 0; i < data.length; i++)
@@ -25,6 +26,8 @@ function getFeedingTimes()
     }
     feeding_content += "</table>";
     document.getElementById("feeding_content").innerHTML = feeding_content;
+    if (all)
+      $("#showAll").toggle();
   });
 }
 
