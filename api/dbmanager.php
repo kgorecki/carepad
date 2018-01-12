@@ -37,7 +37,10 @@ class DBManager {
     $timestamp = new DateTime("now", new DateTimeZone($this->timezone));
     $date = $timestamp->format("Y-m-d H:i:s");
     $query = "INSERT INTO feeding SET feeding_time='$date', type_id=(SELECT type_id FROM types WHERE type_name=$typeName)";
-    $db->query($query);
+    $rows['type_name'] = $typeName;
+    $rows['rows'] = $db->exec($query);
+    return json_encode($rows);
+
   }
 
   function getFeeding($limit = 0) {

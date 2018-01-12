@@ -18,6 +18,6 @@ switch ($operation) {
   case 'insert':
     $type = $_GET["typeName"];
     if (isset($type))
-      $dbManager->insertFeeding($type);
+      echo $dbManager->insertFeeding($type);
     break;
 }

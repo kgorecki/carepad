@@ -10,6 +10,7 @@
 - Empty comments are not shown as undefined - issue #8
 - Entry list is readable (or even pretty ;}) - issue #7
 - Fix issue with displaying comments
+- Added possibility to show all entries
 
 ## [0.0.0] Dirty proof of concept
 ### Backend:

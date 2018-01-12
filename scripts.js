@@ -1,3 +1,5 @@
+var version = "0.0.2";
+
 function mysqlTimeStampToDate(timestamp)
 {
   //function parses mysql datetime string and returns javascript Date object
@@ -18,8 +20,8 @@ function getFeedingTimes(all = false)
       var comment = data[i].comments;
       var date = mysqlTimeStampToDate(data[i].feeding_time);
       var even = i % 2 == 0 ? " class=w3-light-grey" : "";
-      var dateTxt = (date.getMonth() + 1) + "." + date.getDate() + "</td><td>"
-        + date.getHours() + ":" + date.getMinutes();
+      var dateTxt = date.toLocaleDateString() + "</td><td><b>"
+        + date.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) + "</b>";
       feeding_content += "<tr" + even + "><td>" + dateTxt
         + "</td><td class=" + data[i].type_colour + ">" + data[i].type_name
         + "</td><td>" + (comment == undefined ? '' : comment) + "</td></tr>";
@@ -33,10 +35,14 @@ function getFeedingTimes(all = false)
 
 function setFeeding(type)
 {
-  $.get('api/v1.php?operation=insert&typeName=' + encodeURI(type), function()
+  $.getJSON('api/v1.php?operation=insert&typeName=' + encodeURI(type), function(data)
   {
-    alert("Saved!");
-    location.reload();
+    if (data.rows != 1)
+      alert('Something went wrong!')
+    else {
+      alert(data.type_name + ' added!');
+      location.reload();
+    }
   });  
 }
 
