@@ -17,7 +17,8 @@ switch ($operation) {
     break;
   case 'insert':
     $type = $_GET["typeName"];
+    $comment = $_GET["comment"];
     if (isset($type))
-      echo $dbManager->insertFeeding($type);
+      echo $dbManager->insertFeeding($type, $comment);
     break;
 }

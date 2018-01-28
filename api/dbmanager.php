@@ -31,22 +31,47 @@ class DBManager {
     return $db;    
   }
 
-  function insertFeeding($type) {
+  function insertFeeding($type, $comment = null) {
     $db = $this->getDB();
     $typeName = $db->quote($type);
     $timestamp = new DateTime("now", new DateTimeZone($this->timezone));
     $date = $timestamp->format("Y-m-d H:i:s");
-    $query = "INSERT INTO feeding SET feeding_time='$date', type_id=(SELECT type_id FROM types WHERE type_name=$typeName)";
+    if ($comment != null)
+      $commentTxt = ", comments='$comment'";
+    $query = "INSERT INTO feeding SET feeding_time='$date'$commentTxt, type_id=(SELECT type_id FROM types WHERE type_name=$typeName)";
     $rows['type_name'] = $typeName;
+    $rows['comments'] = $comment;
     $rows['rows'] = $db->exec($query);
     return json_encode($rows);
+  }
 
+  function deleteFeeding($id) {
+    $db = $this->getDB();
+    $query = "DELETE FROM feeding WHERE feeding_id=$id";
+    $rows['id'] = $id;
+    $rows['rows'] = $db->exec($query);
+    return json_encode($rows);
+  }
+
+  function moveFeeding($id, $time) {
+    $db = $this->getDB();
+    if ($time == 'left')
+      $newTime = "ADDTIME(feeding_time, '-0:05:00')";
+    else if ($time == 'right')
+      $newTime = "ADDTIME(feeding_time, '0:05:00')";
+    else
+      $newTime = $time;
+    $query = "UPDATE feeding SET feeding_time = $newTime WHERE feeding_id=$id";
+    $rows['id'] = $id;
+    $rows['feeding_time'] = $newTime;
+    $rows['rows'] = $db->exec($query);
+    return json_encode($rows);
   }
 
   function getFeeding($limit = 0) {
     $db = $this->getDB();
     $sLimit = $limit != 0 ? "LIMIT $limit" : ''; 
-    $data = $db->query("SELECT feeding_id, feeding_time, type_name, type_colour, comments FROM feeding f inner join types t on f.type_id = t.type_id ORDER BY feeding_id DESC $sLimit")->fetchAll(PDO::FETCH_ASSOC);
+    $data = $db->query("SELECT feeding_id, feeding_time, type_name, type_colour, comments FROM feeding f inner join types t on f.type_id = t.type_id ORDER BY feeding_time DESC $sLimit")->fetchAll(PDO::FETCH_ASSOC);
     return json_encode($data);
   }
 

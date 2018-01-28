@@ -1,4 +1,4 @@
-var version = "0.0.2";
+var version = "0.0.3";
 
 function mysqlTimeStampToDate(timestamp)
 {
@@ -35,7 +35,9 @@ function getFeedingTimes(all = false)
 
 function setFeeding(type)
 {
-  $.getJSON('api/v1.php?operation=insert&typeName=' + encodeURI(type), function(data)
+  var comment = prompt("Please enter comment", "");
+  $.getJSON('api/v1.php?operation=insert&typeName=' + encodeURI(type)
+    + '&comment=' + encodeURI(comment), function(data)
   {
     if (data.rows != 1)
       alert('Something went wrong!')
