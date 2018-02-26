@@ -10,6 +10,7 @@
 - Some refactoring
 - Limited amount of displayed events
 ### Frontend:
+- Cancel cancels sending event - issue #16
 - Added possibility to add a comment while adding an entry
 - Now you can actually see if insert was successful - issue #11
 - Empty comments are not shown as undefined - issue #8
